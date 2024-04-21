@@ -32,3 +32,6 @@ yarn-error.log*
 *.csv
 
 .env
+
+## generated file for the volumes project
+volumes/data.txt
