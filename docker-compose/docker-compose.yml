@@ -1,0 +1,17 @@
+services:
+  api:
+    build: api
+    ports:
+      - "8080:8080"
+    links:
+      - db
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://db:27017
+  db:
+    image: mongo:7
+  web:
+    build: web
+    environment:
+      API_URL: http://api:8080
+    ports:
+      - "8081:80"
