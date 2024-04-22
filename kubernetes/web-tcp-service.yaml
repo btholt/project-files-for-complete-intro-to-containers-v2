@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --build local
+    kompose.image-pull-policy: Never
+    kompose.service.expose: "true"
+    kompose.service.type: LoadBalancer
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: web-tcp
+  name: web-tcp
+spec:
+  ports:
+    - name: "8081"
+      port: 8081
+      targetPort: 80
+  selector:
+    io.kompose.service: web
+  type: LoadBalancer

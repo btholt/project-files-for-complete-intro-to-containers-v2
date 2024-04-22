@@ -1,0 +1,31 @@
+services:
+  api:
+    build: api
+    ports:
+      - "8080:8080"
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://db:27017
+    labels:
+      kompose.service.type: nodeport
+      # kompose.service.nodeport.port: "8080"
+      kompose.image-pull-policy: Never
+  db:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+  web:
+    build: web
+    links:
+      - api
+    depends_on:
+      - api
+    labels:
+      kompose.service.type: LoadBalancer
+      kompose.service.expose: true
+      kompose.image-pull-policy: Never
+    ports:
+      - "8081:80"

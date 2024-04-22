@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --build local
+    kompose.image-pull-policy: Never
+    kompose.service.expose: "true"
+    kompose.service.type: LoadBalancer
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: web
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: web
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert --build local
+        kompose.image-pull-policy: Never
+        kompose.service.expose: "true"
+        kompose.service.type: LoadBalancer
+        kompose.version: 1.32.0 (HEAD)
+      labels:
+        io.kompose.network/kubernetes-default: "true"
+        io.kompose.service: web
+    spec:
+      containers:
+        - image: web
+          imagePullPolicy: Never
+          name: web
+          ports:
+            - containerPort: 80
+              hostPort: 8081
+              protocol: TCP
+      restartPolicy: Always

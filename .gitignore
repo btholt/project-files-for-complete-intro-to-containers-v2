@@ -35,3 +35,5 @@ yarn-error.log*
 
 ## generated file for the volumes project
 volumes/data.txt
+
+.parcel-cache

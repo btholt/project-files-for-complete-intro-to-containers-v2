@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --build local
+    kompose.image-pull-policy: Never
+    kompose.service.type: nodeport
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: api
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: api
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert --build local
+        kompose.image-pull-policy: Never
+        kompose.service.type: nodeport
+        kompose.version: 1.32.0 (HEAD)
+      labels:
+        io.kompose.network/kubernetes-default: "true"
+        io.kompose.service: api
+    spec:
+      containers:
+        - env:
+            - name: MONGO_CONNECTION_STRING
+              value: mongodb://db:27017
+          image: api
+          imagePullPolicy: Never
+          name: api
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+              protocol: TCP
+      restartPolicy: Always
